@@ -16,15 +16,18 @@ jobs:
         uses: actions/setup-go@v2      
       - name: Build
         run: |
-          make && make dist      
+          make && make dist
+      - name: Parse version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}      
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
+          tag_name: ${{ steps.get_version.outputs.VERSION }}
+          release_name: ${{ steps.get_version.outputs.VERSION }}
           draft: false
           prerelease: false
       - name: Upload release
@@ -34,6 +37,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/get2pushover-${{ github.ref }}-linux-amd64.tar.gz
-          asset_name: get2pushover-${{ github.ref }}-linux-amd64.tar.gz
+          asset_path: ./build/get2pushover-${{ steps.get_version.outputs.VERSION }}-linux-amd64.tar.gz
+          asset_name: get2pushover-${{ steps.get_version.outputs.VERSION }}-linux-amd64.tar.gz
           asset_content_type: application/gzip
