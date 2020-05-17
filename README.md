@@ -34,13 +34,13 @@ Install (the traditional systemd way)
 
 2. Extract it under /opt:
 
-        sudo tar czvf -C /opt/ get2pushover-VERSION.tar.gz
+        sudo tar xf get2pushover-VERSION-OS-ARCH.tar.gz -C /opt/ 
 
 3. Modify the configuration file `/opt/get2pushover/config`.
 
 4. Create a user under which the service should run:
 
-        useradd -r get2pushover
+        sudo useradd --system --no-create-home --shell /bin/false get2pushover
 
 5. Setup systemd service and start it:
 

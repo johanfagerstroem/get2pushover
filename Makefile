@@ -14,7 +14,7 @@ dist: build
 	mkdir -p build/$(BASENAME)
 	cp build/bin/$(BASENAME) build/$(BASENAME)/
 	cp misc/get2pushover.service build/$(BASENAME)/
-	cp misc/defaults build/$(BASENAME)/
+	cp misc/config build/$(BASENAME)/
 	cd build && tar -czvf $(PACKAGE).tar.gz $(BASENAME)
 	rm -rf $(BASENAME)
 
