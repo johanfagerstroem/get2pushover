@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@master  
       - name: Git fetch tags
-      - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*   
+        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*   
       - name: Install Golang
         uses: actions/setup-go@v2      
       - name: Build
