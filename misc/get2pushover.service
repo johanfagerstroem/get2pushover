@@ -1,0 +1,18 @@
+[Unit]
+Description=Pushover GET Proxy
+After=network.target
+
+[Service]
+User=get2pushover
+Restart=always
+RestartSec=5
+Type=simple
+WorkingDirectory=/opt/get2pushover
+EnvironmentFile=/opt/get2pushover/config
+ExecStart=/opt/get2pushover/get2pushover
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=get2pushover
+
+[Install]
+WantedBy=multi-user.target 
