@@ -7,46 +7,33 @@ name: Build and release
 
 jobs:
   release:
-    name: Create GitHub release
+    name: Build and upload release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@master
-      - name: Get version from tag
-        id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+        uses: actions/checkout@master     
+      - name: Install Golang
+        uses: actions/setup-go@v2      
+      - name: Build
+        run: |
+          make && make dist      
       - name: Create release
         id: create_release
-        uses: actions/create-release@v1.0.0
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.get_version.outputs.VERSION }}
-          release_name: ${{ steps.get_version.outputs.VERSION }}
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
           draft: false
           prerelease: false
- 
-  linux-amd64:
-    name: Build for linux-amd64
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install Golang
-        uses: actions/setup-go@v2
-      - name: Checkout code
-        uses: actions/checkout@master
-      - name: Get version from tag
-        id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-      - name: Build
-        run: |
-          make && make dist
       - name: Upload release
         id: upload-release-asset 
-        uses: actions/upload-release-asset@v1.0.1
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/get2pushover-${{ steps.get_version.outputs.VERSION }}-linux-amd64.tar.gz
-          asset_name: get2pushover-${{ steps.get_version.outputs.VERSION }}-linux-amd64.tar.gz
-          asset_content_type: application/octet-stream
+          asset_path: ./build/get2pushover-${{ github.ref }}-linux-amd64.tar.gz
+          asset_name: get2pushover-${{ github.ref }}-linux-amd64.tar.gz
+          asset_content_type: application/gzip
