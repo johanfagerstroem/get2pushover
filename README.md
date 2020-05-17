@@ -25,12 +25,17 @@ If *title* isn't provided in the request, the proxy defaults to the caller's
 FQDN. If FQDN can't be resolved, it defaults to *get2pushover*
 
 
+Build
+-----
+
+    make
+    make dist
+
+
 Install (the traditional systemd way)
 -------------------------------------
 
-1. Build the distribution package or download pre-built packages from Releases:
-
-        make && make dist
+1. Download pre-built packages from [Releases](https://github.com/johanfagerstroem/get2pushover/releases) or build according to steps above.
 
 2. Extract it under /opt:
 
@@ -44,7 +49,7 @@ Install (the traditional systemd way)
 
 5. Setup systemd service and start it:
 
-        sudo cp /opt/get2pushover-VERSION/get2pushover.service /etc/systemd/system/
+        sudo cp /opt/get2pushover/get2pushover.service /etc/systemd/system/
         sudo systemctl enable get2pushover.service
         sudo systemctl start get2pushover.service
 
