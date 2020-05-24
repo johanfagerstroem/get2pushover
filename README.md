@@ -61,4 +61,11 @@ Install (the traditional systemd way)
 Build and run using Docker
 --------------------------
 
-Coming.
+1. Build Docker image:
+    
+        docker build -t get2pushover:$(git describe --always) .
+
+2. Run:
+
+        docker run -e "LISTEN_PORT=3333" -p 3333:3333 get2pushover
+
