@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -84,7 +85,7 @@ func main() {
 		defer cancel()
 
 		pushReq, err := http.NewRequestWithContext(ctx, http.MethodPost,
-			"https://api.pushover.net/1/messages.json", nil)
+			"https://api.pushover.net/1/messages.json", strings.NewReader(form.Encode()))
 		if err != nil {
 			log.Printf("[%s] Failed to create Pushover request: %v\n", r.RemoteAddr, err)
 			w.WriteHeader(http.StatusBadGateway)
